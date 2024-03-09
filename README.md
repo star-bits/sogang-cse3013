@@ -1,6 +1,6 @@
 # 소프트웨어개발도구및환경실습 (컴실1)
 
-## Week 1
+## 1주차
 
 ```
 ssh cse20161277@cspro.sogang.ac.kr
