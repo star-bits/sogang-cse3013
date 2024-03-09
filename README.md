@@ -10,9 +10,7 @@ logout
 
 ```
 touch phone
-
 vim phone
-
 i
 
 #!/bin/bash
