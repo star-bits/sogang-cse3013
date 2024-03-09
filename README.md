@@ -34,9 +34,9 @@ Esc
 ```
 
 ```
-ls -lh
+ls -alh
 chmod +x phone
-ls -lh
+ls -alh
 ```
 
 ```
@@ -70,3 +70,18 @@ address : 경기도 의정부시 호원동 23-12번지
 phone : 031-827-7842
 <---------------
 ```
+
+```
+ls -alh
+cp mydata .mydata
+ls -alh
+chmod 700 $HOME/.mydata
+ls -alh
+```
+
+- First digit (7): Permissions for the file's owner
+  - Sum of: 4 (read) + 2 (write) + 1 (execute)
+  - Indicates: Owner can read, write, and execute the file
+- Second and third digits (0): No permissions for group and others
+  - Each digit represents permissions for owner, group, and other users
+  - Determines actions users can perform on the directory
