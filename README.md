@@ -2,13 +2,13 @@
 
 ## 1주차
 
-```
+```bash
 ssh cse20161277@cspro.sogang.ac.kr
 passwd
 logout
 ```
 
-```
+```bash
 touch phone
 vim phone
 i
@@ -30,19 +30,55 @@ egrep -i "$SEARCH_PATTERN" "$DATA_FILE" | awk -f display.awk
 Esc
 :wq
 ```
+```bash
+#!/bin/bash
 
+DATA_FILE="$HOME/data"
+
+if [ "$#" -eq 0 ]; then
+# $#: the number of arguments the script was called with
+# -eq 0: the number is equal to 0
+    echo "Usage: $0 searchfor [...searchfor]"
+    # $0: the name of the script being executed
+    echo "(You didn't tell me what you want to search for.)"
+    exit 1
+    # non-zero exit statuses signal that an error occurred.
+fi
+
+SEARCH_PATTERN=$(echo "$@" | sed 's/ /|/g')
+# $@ holds all positional parameters, starting from $1
+# |: passes output from `echo "$@"` to `sed 's/ /|/g'`
+# s: substitute
+# s/find/replace/g
+# g: global - all instances of the find pattern will be replaced
+
+egrep -i "$SEARCH_PATTERN" "$DATA_FILE" | awk -f display.awk
+# -i: case insensitive
 ```
+```bash
+# start with all lines of the file
+MATCHES=$(cat "$DATA_FILE")
+
+# loop through arguments
+for arg in "$@"; do
+    # filter matches for current argument
+    MATCHES=$(echo "$MATCHES" | grep -i "$arg")
+done
+
+echo "$MATCHES" | awk -f display.awk
+```
+```bash
 ls -alh
 chmod +x phone
 ls -alh
 ```
 
-```
+```bash
 scp data cse20161277@cspro.sogang.ac.kr:$HOME
 scp display.awk cse20161277@cspro.sogang.ac.kr:$HOME
 ```
 
-```
+```bash
 vim mydata
 
 홍길동|서울시 마포구 신수동 서강대학교 AS관 301호|02-705-2665
@@ -69,7 +105,7 @@ phone : 031-827-7842
 <---------------
 ```
 
-```
+```bash
 ls -alh
 cp data .data
 ls -alh
