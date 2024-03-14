@@ -74,8 +74,7 @@ ls -alh
 ```
 
 ```bash
-scp data cse20161277@cspro.sogang.ac.kr:$HOME
-scp display.awk cse20161277@cspro.sogang.ac.kr:$HOME
+scp data cse20161277@cspro.sogang.ac.kr:/sogang/under/cse20161277/
 ```
 
 ```bash
