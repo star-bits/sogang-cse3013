@@ -75,6 +75,7 @@ ls -alh
 
 ```bash
 scp data cse20161277@cspro.sogang.ac.kr:/sogang/under/cse20161277/
+scp cse20161277@cspro.sogang.ac.kr:/sogang/under/cse20161277/data .
 ```
 
 ```bash
