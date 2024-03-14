@@ -15,7 +15,7 @@ i
 
 #!/bin/bash
 
-DATA_FILE="/sogang/under/cse20161277/mydata"
+DATA_FILE="$HOME/data"
 
 if [ "$#" -eq 0 ]; then
     echo "Usage: $0 searchfor [...searchfor]"
@@ -38,8 +38,8 @@ ls -alh
 ```
 
 ```
-scp mydata cse20161277@cspro.sogang.ac.kr:/sogang/under/cse20161277/
-scp display.awk cse20161277@cspro.sogang.ac.kr:/sogang/under/cse20161277/
+scp data cse20161277@cspro.sogang.ac.kr:$HOME
+scp display.awk cse20161277@cspro.sogang.ac.kr:$HOME
 ```
 
 ```
@@ -71,15 +71,8 @@ phone : 031-827-7842
 
 ```
 ls -alh
-cp mydata .mydata
+cp data .data
 ls -alh
-chmod 700 $HOME/.mydata
+chmod 700 $HOME/.data
 ls -alh
 ```
-
-- First digit (7): Permissions for the file's owner
-  - Sum of: 4 (read) + 2 (write) + 1 (execute)
-  - Indicates: Owner can read, write, and execute the file
-- Second and third digits (0): No permissions for group and others
-  - Each digit represents permissions for owner, group, and other users
-  - Determines actions users can perform on the directory
