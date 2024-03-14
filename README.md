@@ -27,7 +27,7 @@ SEARCH_PATTERN=$(echo "$@" | sed 's/ /|/g')
 
 egrep -i "$SEARCH_PATTERN" "$DATA_FILE" | awk -f display.awk
 
-Esc
+`esc`
 :wq
 ```
 ```bash
