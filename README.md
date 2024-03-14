@@ -112,3 +112,29 @@ ls -alh
 chmod 700 $HOME/.data
 ls -alh
 ```
+
+```bash
+echo "Working directory: "
+read dirname
+
+if [ -z "$dirname" ]; then
+# -z checks for a zero-length string
+    dirname="."
+fi
+
+if [ ! -d "$dirname" ]; then
+# -d checks for the existence of a directory
+    echo "input dir does not exist"
+    exit 1
+fi
+
+if ! cd "$dirname" ; then
+    echo "cd to input dir failed"
+    exit 1
+fi
+
+for oldname in *; do
+    newname=$(echo "$oldname" | tr '[:upper:][:lower:]' '[:lower:][:upper:]')
+    mv "$oldname" "$newname"
+done
+```
