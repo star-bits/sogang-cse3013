@@ -138,3 +138,25 @@ for oldname in *; do
     mv "$oldname" "$newname"
 done
 ```
+
+## 2주차
+```bash
+gcc hello.c
+./a.out
+
+gcc hello.c -o hi
+gcc -o hi hello.c
+./hi
+
+gcc hello.c -v
+
+gcc hello.c -c
+# hello.o
+
+gcc -o main main.c fun1.c fun2.c
+
+gcc -c main.c
+gcc -c fun1.c
+gcc -c fun2.c
+gcc -o main main.o fun1.o fun2.o
+```
