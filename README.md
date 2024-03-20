@@ -160,3 +160,100 @@ gcc -c fun1.c
 gcc -c fun2.c
 gcc -o main main.o fun1.o fun2.o
 ```
+```Makefile
+# `make`
+exefile2: film.o director.o main.o
+    gcc -o exefile2 film.o director.o main.o
+
+film.o: film.c
+    gcc -c -o film.o film.c
+
+director.o: director.c
+    gcc -c -o director.o director.c
+
+main.o: main.c
+    gcc -c -o main.o main.c
+
+# `make clean`
+clean:
+    rm *.o exefile2
+```
+```Makefile
+# compiler to be used
+CC = gcc
+# name of the final executable
+target = movie
+# object files to build the final executable
+objects = main.o film.o director.o
+
+$(target): $(objects)
+    $(CC) -o $(target) $(objects)
+
+$(objects) : movie.h
+
+# `clean` as a phony target
+.PHONY: clean
+clean:
+    rm $(target) $(objects)
+
+```
+```c
+// sample.c
+#include <stdio.h>
+
+main(void)
+{
+    int i;
+    double num;
+
+    for (i=0; i<5; i++){
+        num = i/2 + i;
+        printf("num is %f \n", num);
+    }
+}
+```
+```bash
+# -g
+gcc sample.c -o sample -g
+
+# gdb
+gdb sample
+gdb
+(gdb) file sample
+
+# display the value of a variable 
+display num
+print num
+# inspect the type of a variable
+whatis num
+# information about local variables
+info locals
+
+set var i = 2
+
+# set breakpoint
+break main
+break 7 # 7 is a line number
+break if i==3
+info break
+condition 2 # 2 is a breakpoint number
+disable 2
+delete 2
+# set watchpoint
+watch i==3
+
+# run
+run
+run arg1 arg2
+
+# continue execution until the next breakpoint or watchpoint
+continue
+next
+step
+# finish the current loop iteration or function
+finish
+
+list
+list main
+list 7 # 7 is a line number
+```
