@@ -166,39 +166,53 @@ gcc -o main main.o fun1.o fun2.o
 ```
 ```Makefile
 # `make`
-exefile2: film.o director.o main.o
-    gcc -o exefile2 film.o director.o main.o
-
-film.o: film.c
-    gcc -c -o film.o film.c
-
-director.o: director.c
-    gcc -c -o director.o director.c
+main: main.o fun1.o fun2.o
+    gcc -o main main.o fun1.o fun2.o 
 
 main.o: main.c
     gcc -c -o main.o main.c
 
+fun1.o: fun1.c
+    gcc -c -o fun1.o fun1.c
+
+fun2.o: fun2.c
+    gcc -c -o fun2.o fun2.c
+
 # `make clean`
 clean:
-    rm *.o exefile2
+    rm *.o main
 ```
 ```Makefile
-# compiler to be used
+# compiler
 CC = gcc
-# name of the final executable
-target = movie
-# object files to build the final executable
-objects = main.o film.o director.o
+# compiler flags: enable warnings and debug info
+CFLAGS = -W -g
+# final executable
+TARGET = main
+# object files
+OBJECTS = main.o fun1.o fun2.o
 
-$(target): $(objects)
-    $(CC) -o $(target) $(objects)
+# rule for building the final executable
+$(TARGET): $(OBJECTS)
+    # links the object files into the final executable
+    $(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
 
-$(objects) : movie.h
+# pattern rule for converting .c files into .o files
+%.o : %.c
+    # $@ represents the .o file
+    # #< represents the correspondng .c file
+    $(CC) $(CFLAGS) -c -o $@ $<
+# the .c to .o conversion is carried out automatically
+# this block is actually unnecessary
 
-# `clean` as a phony target
+# object files depend on this header
+$(OBJECTS): header.h
+
+# declare 'clean' as a phony target
 .PHONY: clean
+# remove executable and objects
 clean:
-    rm $(target) $(objects)
+    rm $(TARGET) $(OBJECTS)
 
 ```
 ```c
@@ -217,106 +231,46 @@ main(void)
 }
 ```
 ```bash
-# -g
 gcc sample.c -o sample -g
 
-# gdb
+# start gdb for debugging
 gdb sample
+# alternatively
 gdb
-(gdb) file sample
+(gdb) file sample 
 
-# display the value of a variable 
-display num
-print num
-# inspect the type of a variable
-whatis num
-# information about local variables
-info locals
-
-set var i = 2
-
-# set breakpoint
-break main
-break 7 # 7 is a line number
+# set breakpoints
+break main # set breakpoint at the beginning of main function
+break 7 # set a breakpoint at line number 7
 break if i==3
-info break
-condition 2 # 2 is a breakpoint number
-disable 2
-delete 2
-# set watchpoint
-watch i==3
 
-# run
-run
-run arg1 arg2
+info break # list all breakpoints
+disable 2 # disable breakpoint number 2
+delete 2 # remove breakpoint number 2
 
-# continue execution until the next breakpoint or watchpoint
-continue
-next
-step
-# finish the current loop iteration or function
-finish
+# set a watchpoint to monitor variable changes
+watch i==3 # triggers when i changes to 3
 
-list
-list main
-list 7 # 7 is a line number
-```
-```Makefile
-cc=gcc
-# -W: enable all warnings
-cflags = -W -g
-# name of the final executable
-target = main
+# run the program
+run # starts the program
+run arg1 arg2 # starts the program with arguments arg1 and arg2
 
-# object files
-objects = main.o string_manipulation.o output.o
+# step through the program
+continue # continue execution until the next breakpoint or watchpoint
+next # execute the next line
+step # execute the next step
+finish # finish the current function
 
-# final executable depends on the object files
-$(target) : $(objects)
-    $(cc) $(cflags) -o $(target) $(objects)
+# inspect and manipulate variables
+display num # continuously display the value of num after each step
+print num # print the current value of num
+whatis num # display the type of variable num
+info locals # list local variables in the current frame
+set var i = 2 # set the variable i to 2
 
-# rule on how to convert a `.c` source file into an `.o` object file
-# for any `.o` file, look for a `.c` file with the same stem (name before the extension)
-# `%` is a wildcard that matches any string
-%.o : %.c
-    # `$@`: automatic variable that stands for the target of the rule; i.e., the `.o` file
-    # `#<`: automatic variable that represents the first dependency of the rule; i.e., the correspondng `.c` file
-    $(cc) $(cflags) -c -o $@ $<
+# list source code for context
+list # list source code around the current line
+list main # list the beginning of the main function
+list 7 # list source code around line number 7
 
-# object files listed all depends on Header.h
-main.o string_manipulation.o output.o : Header.h
-
-.PHONY : clean
-clean :
-    rm $(target) $(objects)
-```
-```c
-void Remove_Blanks_At_The_End(char *line) {
-  int i, k, newline_flag = 0;
-
-  // 전체 문장에 대하여 line[k] 가 줄바꿈이면 flag를 1로 set, '\0'이면 ~~
-  for (k = 0;; k++) {
-    if (line[k] == '\n') {
-      newline_flag = 1;
-      break;
-    }
-    if (line[k] == '\0') {
-      break;
-    }
-  }
-  // 전체 문장에 대하여 line[i]가 space가 아니라면 break,
-  for (i = k - 1; i >= 0; i--) {
-    if (line[i] != ' ') {
-      break;
-    }
-  }
-  i++;
-  // flag가 1일때 문장의 마지막은 줄바꿈&space, flag가 1이 아니라면 '\0'
-  if (newline_flag == 1) {
-    line[i] = '\n';
-    line[i + 1] = '\0';
-  } else {
-    line[i] = '\0';
-  }
-}
 ```
